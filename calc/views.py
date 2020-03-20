@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.http import HttpResponseNotFound
 import operator
 # Create your views here.
 
@@ -15,14 +16,14 @@ operations = {
 
 def calcular(request, func, op1, op2):
 	if func not in operations:
-	    return HttpResponse("Introduce una operacion: sumar, restar, multiplicar o dividir")
+	    return HttpResponseNotFound("Introduce una operacion: sumar, restar, multiplicar o dividir")
 	try:
 	    op1 =  float(op1)
 	    op2 =  float(op2)
 	except ValueError:
-	    return HttpResponse("Introduce un operando valido tipo decimal")
+	    return HttpResponseNotFound("Introduce un operando valido tipo decimal")
 	try:
 	    result = operations[func](op1, op2)
 	except ZeroDivisionError:
-	    return HttpResponse("Para realizar una division el divisor debe ser distinto de 0")
+	    return HttpResponseNotFound("Para realizar una division el divisor debe ser distinto de 0")
 	return HttpResponse("El resultado es: "+ str(result))
